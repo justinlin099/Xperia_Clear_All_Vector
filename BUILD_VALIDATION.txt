@@ -1,0 +1,15 @@
+Xperia Recents ClearAll 1.1.5 — validation (2026-10-31)
+PASS: Gradle assembleDebug.
+PASS: APK signature valid; same certificate as 1.1.4.
+PASS: Four Android API 36 native-graphics layout regression tests (Robolectric 4.17 / JDK 21).
+Pixel measurements use a 90px-high test Button at mdpi with colored text and a solid 24px icon.
+Native-rendered foreground bounds, not mocked layout attributes:
+Rendered 'Clear all': top=22 bottom=23 padding=22/22
+Rendered 'Clear all': top=8 bottom=24 padding=8/8
+Rendered 'Multi window mode': top=14 bottom=15 padding=14/14
+Rendered '多視窗模式': top=20 bottom=20 padding=20/19
+
+The stock CENTER fixture reproduces the old asymmetry.
+Corrected single-line, wrapped and Chinese cases require top/bottom visible gaps to differ by at most 1px.
+Repeated centering must not accumulate padding.
+Not verified: Sony device rendering, Xperia icon artwork/font differences, or Hook runtime behavior.
