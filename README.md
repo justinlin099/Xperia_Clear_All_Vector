@@ -19,7 +19,6 @@
 | 使用需求 | root 與啟用中的 Vector／LSPosed | Shizuku 無線偵錯（ADB）模式 |
 | 按鈕位置 | 直接加入 Sony Launcher 多工操作列 | 懸浮按鈕，可自訂位置與外觀 |
 | 啟用方式 | 在框架中勾選模組與 Xperia Home | 在 App 中連接 Shizuku 並授權 |
-| 圖示 | Aurora 三條線加上 `#` root 標記 | Aurora 三條線 |
 
 請擇一啟用，避免多工畫面同時出現兩套清除按鈕。
 
@@ -35,10 +34,9 @@
 
 - 已 root 的 Sony Xperia，使用原廠 Xperia Home，並已安裝及啟用 [Vector](https://github.com/JingMatrix/Vector) 或相容的 LSPosed。
 - APK 最低安裝版本為 **Android 16（API 36）**。
-- 現行 Hook 針對 **Xperia Home 17，versionCode 37** 的內部類別與方法。最低 Android 版本不代表所有較新系統／Launcher 都相容；其他 Launcher 版本與第三方桌面尚未確認。
-- 沿用 Legacy Xposed API，宣告最低框架 API 93；不要求遷移至 libxposed API 102。
+- 現行 Hook 針對 **Xperia Home 17，versionCode 37** 的內部類別與方法。
+- 沿用 Legacy Xposed API，宣告最低框架 API 93。
 
-作者已確認原有版本於實機正常運作。本次 1.1.6 的程式整理與資源優化另有自動化回歸測試；改版後的實機確認與測試範圍請見 [BUILD_VALIDATION.txt](BUILD_VALIDATION.txt)。
 
 ## 安裝與啟用
 
@@ -53,10 +51,6 @@
 ## 資源用量
 
 模組僅在 Sony Launcher 主程序中運作，以原有 Launcher 事件更新按鈕。一般任務狀態回呼不再重做整排版面、資源名稱查找或圖示同步；版面與外觀工作分別由佈局／設定事件觸發。圖示只有在實際顏色改變時才要求狀態重繪。
-
-已移除未使用的 AppCompat、Material 與 AndroidX Core 執行期依賴。這能減少 APK 體積；實際 CPU、PSS 記憶體與電池用量仍需實機量測，不能把 APK 縮小比例當作省電比例。
-
-新版 Vector／libxposed API 的評估、優化細節與量測限制請見 [效能說明](docs/performance.md)。
 
 ## 常見問題
 
@@ -90,12 +84,6 @@ bash ./gradlew :app:testDebugUnitTest :app:lintDebug :app:assembleDebug
 輸出為 `app/build/outputs/apk/debug/app-debug.apk`。debug APK 使用本機 debug 金鑰，只有簽章與已安裝版本相同時才能直接覆蓋。發佈版本請使用自己的固定簽章金鑰。
 
 圖示來源與重建方式見 [branding/README.md](branding/README.md)。
-
-## GitHub 自動編譯與發布
-
-已提供 GitHub Actions：`main`／PR 執行測試、lint 並產生 debug APK；在 `main` 手動執行可產生正式金鑰簽名的 APK；推送與 `versionName` 一致的 `v` tag 會自動建立 Release。
-
-第一次需在 **Vector repo** 設定四個簽名 Secrets。完整步驟與目前版本的 tag 範例見 [自動編譯與發布說明](docs/RELEASING.md)。
 
 ## 回報問題
 
