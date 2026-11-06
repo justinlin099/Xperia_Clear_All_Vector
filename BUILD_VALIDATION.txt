@@ -1,3 +1,80 @@
+CI / SIGNED RELEASE SETUP — 2026-11-06
+PASS: actionlint 1.7.12 (official release, checksum verified) validates android.yml.
+PASS: Workflow YAML event/permission/dependency checks and Bash syntax for all run steps.
+PASS: 12 Python release-packaging tests, including exact tag matching, Vector package
+  identity, release variant, single APK, path/version safety, unsigned/missing output,
+  stale assets, stable/preview classification and GITHUB_OUTPUT channel wiring.
+PASS: Android test/lint/debug/unsigned-release build tasks after signing configuration.
+  Existing Android test results remain 11 passing; no Android runtime code changed.
+PASS: Partial signing environment rejected by Gradle before build.
+PASS: Signed release built with a temporary validation-only PKCS12 key, staged using
+  actual AGP output metadata, and verified by apksigner. This is NOT a production key.
+PASS: v1.1.6-standalone maps to versionCode 8 and a stable release channel.
+PASS: Official Xposed API 82 Maven POM endpoint returned HTTP 200.
+PASS: README release-guide links and git diff whitespace checks.
+
+Cloud workflow has not been pushed or executed by this local validation. Production
+signing still requires the maintainer's fixed key in the Vector repository Secrets.
+No tag or GitHub Release was created. See docs/RELEASING.md for setup and commands.
+
+Xperia Clear All # 1.1.6-standalone (versionCode 8) — 2026-11-06
+
+DEVICE STATUS
+The author confirmed the existing implementation works normally on a physical device.
+That confirmation applies to the pre-cleanup version, not an automatic device validation
+of this update. No physical device was used for the 1.1.6 checks below.
+
+PASS: Gradle :app:testDebugUnitTest — 11 tests, 0 failures/errors/skips.
+  4 existing native-rendering content-centering regressions + 1 existing basic test.
+  3 row-layout regressions: 100 stable updates without layout requests/background
+  replacement, rotation/width cap and sibling visibility, large-font common height.
+  2 drawable regressions: color-aware invalidation and rendered alpha/color.
+  1 adaptive/themed icon resource regression including # badge and 66dp safe circle.
+PASS: :app:assembleDebug and :app:assembleRelease.
+PASS: :app:assembleDebugAndroidTest (compiled only; not run on a device).
+PASS: :app:lintDebug — 0 errors, 4 warnings:
+  3 build-tool update suggestions; 1 DataExtractionRules warning. The module has
+  no Activity, services, stored application settings or requested permissions.
+PASS: Debug APK signature verified with Android build-tools 35.0.0 apksigner.
+PASS: Packaged assets/xposed_init and MainHook dex descriptor verified.
+PASS: APK metadata: unchanged applicationId com.justinlin099.xperiarecentsclearall,
+  min/target SDK 36, label Xperia Clear All #, versionCode 8.
+PASS: Generated Android foreground visually inspected as native-rendered PNG;
+  colored, themed and small-size branding previews inspected.
+PASS: Cross-repository links present in both editions' Chinese/English READMEs;
+  local documentation/image links and git diff whitespace checks passed.
+
+BUILD ENVIRONMENT
+Windows 11, JDK 22, Android SDK 36, Gradle 8.13, AGP 8.13.2, Kotlin 2.0.21.
+The missing wrapper JAR and matching launch scripts were restored from the sibling
+non-root project (same Gradle 8.13 distribution); the wrapper was used successfully.
+
+APK SIZE (same local toolchain, debug builds; decimal bytes)
+Original 1.1.5 baseline: 13,573,005
+Updated 1.1.6 debug:    2,383,979
+Reduction: 82.44%
+Updated unsigned release: 2,053,017 (no release baseline comparison).
+Unused UI runtime dependencies and Android Studio placeholder resources removed.
+APK size is not PSS/CPU/energy use. No measured battery or RAM reduction is claimed.
+
+OUTPUT
+artifacts/Xperia-Clear-All-Vector-1.1.6-debug.apk
+SHA-256: 95dcdefbd40e7cd5a8f2059ee9b7d68b5dd62a5f3ee6ce74ecf5df5742bc9e39
+Signed using the local Android debug certificate; matching the author's previous
+installed release certificate has not been established. The release output is unsigned.
+
+RUNTIME OPTIMIZATION
+Task-state callbacks skip resource-name lookup, icon synchronization and row restyling.
+Appearance callbacks reuse the screenshot view and unchanged glyphs. Icon state
+changes avoid invalidation when the resolved color is unchanged. Main-process filter
+avoids installing hooks in Launcher subprocesses. Original dismissal method, scope,
+click guard and API remain. See docs/performance.md for the official API review.
+
+Still requires device verification for this update: actual Sony hook callback timing,
+rotation/theme/font/language changes, empty/task/split transitions and dismissal.
+
+--- Historical validation supplied with the original project follows ---
+
 Xperia Recents ClearAll 1.1.5 — validation (2026-10-31)
 PASS: Gradle assembleDebug.
 PASS: APK signature valid; same certificate as 1.1.4.

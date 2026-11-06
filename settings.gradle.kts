@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "pdx206StatusbarHookYAAP"
+rootProject.name = "XperiaClearAllVector"
 include(":app")
